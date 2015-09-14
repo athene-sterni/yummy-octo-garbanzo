@@ -1,0 +1,99 @@
+.mid-box-container {
+	width: 50%; margin: auto;
+	padding: 1em;
+	border: solid 0.1em black;
+}
+
+
+div#wrapper {
+	min-height: 10em;
+	width: 60em;
+	max-width: 88%;
+	margin: auto;
+	margin-top: 6%;
+}
+
+div#content {
+}
+
+span.code { font-family: monospace; background-color: #DADADA; }
+
+div#nav {
+	font-family: sans-serif;
+}
+
+div#nav a, div#nav a:visited {
+	color: #000000;
+	text-decoration: underline;
+}
+
+div#nav a:hover {
+	text-decoration: overline;
+}
+
+p a, p a:visited, .box a, .box a:visited {
+	color: #1111FF;
+	text-decoration: underline;
+}
+
+p a:hover, .box a:hover {
+	text-decoration: none;
+	color: #7777CC;
+}
+
+h1, h2, h3, h4, h5 {
+	font-family: 'Lobster', cursive;
+}
+
+p, .box {
+}
+
+#content { margin-top: 1em; }
+
+h1 {
+	font-size: 1.75em;
+}
+
+h2 {
+	font-size: 1.25em;
+}
+
+h3 {
+	font-size: 1.15em;
+}
+
+h4 {
+	font-size: 1.1em;
+}
+
+h5 {
+	font-size: 1em; 
+}
+
+html, body {
+	font-family: sans-serif;
+	/* font-size: 1.2vmax; */
+	background-color: #FEFEFE;
+}
+
+code, pre {
+	padding: 0.5em;
+	font-size: 0.9em;
+	font-weight: normal;
+	font-family: monospace;
+	border-top: dashed 0.1em #222222;
+	border-bottom: dashed 0.1em #222222;
+	background-color: #DFDFDF;
+	overflow: auto;
+}
+
+div#footer {
+	float: right;
+	font-size: 7pt;
+	margin-top: 2em;
+}
+
+.cat-cs { color: blue; }
+.cat-mh { color: red; }
+.cat-po { color: green; }
+.cat-ls { color: purple; }
