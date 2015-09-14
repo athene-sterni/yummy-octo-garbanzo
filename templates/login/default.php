@@ -1,3 +1,8 @@
+<?
+if(!defined('YOG_INCLUDE'))
+   die('Direct access not permitted');
+?>
+
 <? include 'templates/header.php'; ?>
 <h1>Login</h1>
 <p><?=$L_LOGIN_TEXT?></p>

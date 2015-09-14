@@ -1,3 +1,7 @@
+<?
+if(!defined('YOG_INCLUDE'))
+   die('Direct access not permitted');
+?>
 
 			</div>
 			<div id="footer">

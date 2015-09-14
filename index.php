@@ -1,3 +1,5 @@
+<? define('YOG_INCLUDE', '42'); ?>
+
 <?
 
 include('cls/c/main.php');

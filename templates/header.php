@@ -1,4 +1,9 @@
 <?
+if(!defined('YOG_INCLUDE'))
+   die('Direct access not permitted');
+?>
+
+<?
 $L_USERNAME = 'Username';
 $L_PASSWORD = 'Password';
 $L_LOGIN_TEXT = 'Please provide your credentials to log yourself in or create a new account.';
