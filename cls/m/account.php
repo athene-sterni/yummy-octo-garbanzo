@@ -17,13 +17,21 @@ class Account {
 	private $last_login = null;
 	private $last_update = null;
 	
-	private $isOk = FALSE;
 
 	public function __construct($dbConnection) {
 		$this->dbConnection = $dbConnection;
 	}
 
+	public function validate() {
+		$this->setLastLogin($this->last_login);
+	}
+
 	public function insert() {
+		$this->validate(); 
+
+		if(!$this->isOk)
+			throw new Exception('Fields have not been validated!');
+
 		$stmt = $this->dbConnection->prepare("
 			INSERT INTO tbl_accounts(
 				username, email, pw_hash,
