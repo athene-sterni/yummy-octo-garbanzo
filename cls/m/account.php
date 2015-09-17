@@ -12,26 +12,126 @@ class Account {
 	private $username = null;
 	private $email = null;
 	private $pw_hash = null;
+	private $salt = null;
 	private $tmp_pw_hash = null;
 	private $last_login = null;
 	private $last_update = null;
+	
+	private $isOk = FALSE;
 
 	public function __construct($dbConnection) {
 		$this->dbConnection = $dbConnection;
 	}
 
+	public function insert() {
+		$stmt = $this->dbConnection->prepare("
+			INSERT INTO tbl_accounts(
+				username, email, pw_hash,
+				salt, tmp_pw_hash,
+				last_login, last_update)
+			VALUES (
+				:username, :email, :pw_hash,
+				:salt, :tmp_pw_hash, :last_login, NOW());");
+
+		$stmt->bindParam(':username', $this->username, PDO::PARAM_STR);
+		$stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
+		$stmt->bindParam(':pw_hash', $this->pw_hash, PDO::PARAM_STR);
+		$stmt->bindParam(':salt', $this->salt, PDO::PARAM_STR);
+		$stmt->bindParam(':tmp_pw_hash', $this->tmp_pw_hash, PDO::PARAM_STR);
+		$stmt->bindParam(':last_login', $this->last_login, PDO::PARAM_STR);
+		
+		if(!$stmt->execute())
+			throw new Exception('Query failed!');
+	}
+
+	public function update() {
+		$stmt = $this->dbConnection->prepare("
+			UPDATE tbl_accounts SET
+				username = :username,
+				email = :email,
+				pw_hash = :pw_hash,
+				salt = :salt,
+				tmp_pw_hash = :tmp_pw_hash,
+				last_login = :last_login,
+				last_update = NOW()
+			WHERE id = :id");
+
+		$stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+		$stmt->bindParam(':username', $this->username, PDO::PARAM_STR);
+		$stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
+		$stmt->bindParam(':pw_hash', $this->pw_hash, PDO::PARAM_STR);
+		$stmt->bindParam(':salt', $this->salt, PDO::PARAM_STR);
+		$stmt->bindParam(':tmp_pw_hash', $this->tmp_pw_hash, PDO::PARAM_STR);
+		$stmt->bindParam(':last_login', $this->last_login, PDO::PARAM_STR);
+		
+		if(!$stmt->execute())
+			throw new Exception('Query failed!');
+	}
+
 	public function byId($id) {
 		$stmt = $this->dbConnection->prepare("SELECT * FROM tbl_accounts WHERE id = :id");
 		$stmt->bindParam(':id', intval($id), PDO::PARAM_INT);
-		$stmt->execute() or die('Query failed (account::byId)');
-		if($row = $stmt->fetch()) {
 
+		if(!$stmt->execute())
+			 throw new Exception('Query failed!');
+
+		if($row = $stmt->fetch()) {
 			$this->username = $row['username'];
 			$this->email = $row['email'];
 			$this->pw_hash = $row['pw_hash'];
 			$this->tmp_pw_hash = $row['tmp_pw_hash'];
 			$this->last_login = $row['last_login'];
 			$this->last_update = $row['last_update'];
+			$this->salt = $row['salt'];
+			$this->id = intval($row['id']);
+
+			return TRUE;
+		}
+		else {
+			return FALSE;
+		}
+	}
+
+	public function byUsername($username) {
+		$stmt = $this->dbConnection->prepare("SELECT * FROM tbl_accounts WHERE username = :username");
+		$stmt->bindParam(':username', $username, PDO::PARAM_STR);
+
+		if(!$stmt->execute())
+			 throw new Exception('Query failed!');
+
+		if($row = $stmt->fetch()) {
+			$this->username = $row['username'];
+			$this->email = $row['email'];
+			$this->pw_hash = $row['pw_hash'];
+			$this->tmp_pw_hash = $row['tmp_pw_hash'];
+			$this->last_login = $row['last_login'];
+			$this->last_update = $row['last_update'];
+			$this->salt = $row['salt'];
+			$this->id = intval($row['id']);
+
+			return TRUE;
+		}
+		else {
+			return FALSE;
+		}
+	}
+
+	public function byEmail($email) {
+		$stmt = $this->dbConnection->prepare("SELECT * FROM tbl_accounts WHERE email = :email");
+		$stmt->bindParam(':email', $email, PDO::PARAM_STR);
+
+		if(!$stmt->execute())
+			 throw new Exception('Query failed!');
+
+		if($row = $stmt->fetch()) {
+			$this->username = $row['username'];
+			$this->email = $row['email'];
+			$this->pw_hash = $row['pw_hash'];
+			$this->tmp_pw_hash = $row['tmp_pw_hash'];
+			$this->last_login = $row['last_login'];
+			$this->last_update = $row['last_update'];
+			$this->salt = $row['salt'];
+			$this->id = intval($row['id']);
 
 			return TRUE;
 		}
@@ -48,12 +148,14 @@ class Account {
 	public function getLastUpdate() { return $this->last_update; }
 
 	public function setLastLogin($value) {
-		Validation::isValidDateTime($value) or die('Invalid format (account::setLastLogin)');
+		Validation::isValidDateTime_($value);
 
 		$this->last_login = $value;
 	}
 
-	
+	public function setLastLoginToNow() {
+		$this->setLastLogin(date('Y-m-d H:i:s'));
+	}
 
 }
 

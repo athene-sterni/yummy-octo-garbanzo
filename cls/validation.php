@@ -5,6 +5,12 @@ if(!defined('YOG_INCLUDE'))
 
 <?
 
+
+/*
+	Validation methods returning TRUE or FALSE. If suffixed with an underscore
+	the method will not return a boolean but throw an Exception or pass. 
+*/
+
 class Validation {
 
 	public static function isValidDateTime($dt) {
@@ -14,6 +20,10 @@ class Validation {
 			return FALSE;
 		
 		return TRUE;
+	}
+
+	public static function isValidDateTime_($dt) {
+		if(!self::isValidDateTime($dt)) throw new Exception('Invalid format');
 	}
 
 }

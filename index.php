@@ -2,47 +2,56 @@
 
 <?
 
-include('config.php');
+try { 
 
-include('cls/validation.php');
+		include('config.php');
 
-include('cls/c/main.php');
-include('cls/c/login.php');
-include('cls/v/view.php');
+		include('cls/validation.php');
 
-include('cls/m/account.php');
-   
-$request = array_merge($_GET, $_POST);   
+		include('cls/c/main.php');
+		include('cls/c/login.php');
+		include('cls/v/view.php');
 
-$rqController = $request['c'];
-$rqAction = $request['a'];
+		include('cls/m/account.php');
+		   
+		$request = array_merge($_GET, $_POST);   
 
-$dbConnection = null;
+		$rqController = $request['c'];
+		$rqAction = $request['a'];
 
-try {
-	$dbConnection = new PDO(
-		$CFG_DBO_CONNECTION_STRING,
-		$CFG_DBO_CONNECTION_USER,
-		$CFG_DBO_CONNECTION_PASSWORD);	
+		$dbConnection = null;
+
+		try {
+			$dbConnection = new PDO(
+				$CFG_DBO_CONNECTION_STRING,
+				$CFG_DBO_CONNECTION_USER,
+				$CFG_DBO_CONNECTION_PASSWORD);	
+		}
+		catch (PDOException $ex) {
+			die('Connection to database could not be established!');
+		}
+
+		$account = new Account($dbConnection);
+		if($account->byUsername('demo') === FALSE)
+			die('not found');
+
+		$controller = null;
+
+		switch($rqController) {
+			case 'login':
+				$controller = new LoginController($request, $rqAction, $dbConnection);
+				break;
+			default:
+				$controller = new MainController($request, $rqAction, $dbConnection);
+				break;
+		}
+		echo $controller->display(); 
+
 }
-catch (PDOException $ex) {
-	die('Connection to database could not be established!');
+catch(Exception $ex) {
+		error_log('Something went wrong:');
+		error_log($ex);
+		echo 'Site temporarily down. Please wait.';
 }
-
-$account = new Account($dbConnection);
-if($account->byId(1) === FALSE)
-	die('not found');
-
-$controller = null;
-
-switch($rqController) {
-	case 'login':
-		$controller = new LoginController($request, $rqAction, $dbConnection);
-		break;
-	default:
-		$controller = new MainController($request, $rqAction, $dbConnection);
-		break;
-}
-echo $controller->display(); 
 
 ?>
