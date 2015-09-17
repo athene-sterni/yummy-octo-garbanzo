@@ -12,3 +12,11 @@ CREATE TABLE tbl_accounts (
 	last_login  DATETIME NOT NULL,
 	last_update DATETIME NOT NULL
 ) ENGINE=INNODB;
+
+INSERT INTO tbl_accounts(
+	username, email, pw_hash,
+	salt, tmp_pw_hash,
+	last_login, last_update)
+VALUES (
+	'demo', 'demo@mroman.ch', '0de084f38ace8e3d82597f55cc6ad5d6001568e6',
+	'123', NULL, NOW(), NOW());
