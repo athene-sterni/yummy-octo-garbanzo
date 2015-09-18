@@ -1,5 +1,16 @@
 <? define('YOG_INCLUDE', '42'); ?>
 
+
+<?
+class Lang {
+	public static $L_USERNAME = 'Username';
+	public static $L_PASSWORD = 'Password';
+	public static $L_LOGIN_TEXT = 'Please provide your credentials to log yourself in or create a new account:';
+	public static $L_SIGNUP_TEXT = 'Please provide your information to sign up:';
+	public static $L_EMAIL = 'E-Mail';
+}
+?>
+
 <?
 
 try { 
@@ -10,6 +21,7 @@ try {
 
 		include('cls/c/main.php');
 		include('cls/c/login.php');
+		include('cls/c/signup.php');
 		include('cls/v/view.php');
 
 		include('cls/m/account.php');
@@ -40,6 +52,9 @@ try {
 		switch($rqController) {
 			case 'login':
 				$controller = new LoginController($request, $rqAction, $dbConnection);
+				break;
+			case 'signup':
+				$controller = new SignUpController($request, $rqAction, $dbConnection);
 				break;
 			default:
 				$controller = new MainController($request, $rqAction, $dbConnection);

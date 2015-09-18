@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS tbl_accounts;
 CREATE TABLE tbl_accounts (
 	id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	username    VARCHAR(255) NOT NULL UNIQUE,
-	email       TEXT NOT NULL UNIQUE,
+	email       VARCHAR(255) NOT NULL UNIQUE,
 	pw_hash     TEXT NOT NULL,
 	salt        VARCHAR(16) NOT NULL,
 	tmp_pw_hash TEXT,

@@ -23,14 +23,15 @@ class Account {
 	}
 
 	public function validate() {
-		$this->setLastLogin($this->last_login);
+		if($this->username === null ||
+		   $this->email === null ||
+		   $this->pw_hash === null ||
+		   $this->salt === null)
+			throw new Exception('Invalid null fields!');
 	}
 
 	public function insert() {
 		$this->validate(); 
-
-		if(!$this->isOk)
-			throw new Exception('Fields have not been validated!');
 
 		$stmt = $this->dbConnection->prepare("
 			INSERT INTO tbl_accounts(
@@ -49,7 +50,7 @@ class Account {
 		$stmt->bindParam(':last_login', $this->last_login, PDO::PARAM_STR);
 		
 		if(!$stmt->execute())
-			throw new Exception('Query failed!');
+			$this->queryFail($stmt);
 	}
 
 	public function update() {
@@ -73,7 +74,7 @@ class Account {
 		$stmt->bindParam(':last_login', $this->last_login, PDO::PARAM_STR);
 		
 		if(!$stmt->execute())
-			throw new Exception('Query failed!');
+			$this->queryFail($stmt);
 	}
 
 	public function byId($id) {
@@ -81,7 +82,7 @@ class Account {
 		$stmt->bindParam(':id', intval($id), PDO::PARAM_INT);
 
 		if(!$stmt->execute())
-			 throw new Exception('Query failed!');
+			 $this->queryFail($stmt);
 
 		if($row = $stmt->fetch()) {
 			$this->username = $row['username'];
@@ -105,7 +106,7 @@ class Account {
 		$stmt->bindParam(':username', $username, PDO::PARAM_STR);
 
 		if(!$stmt->execute())
-			 throw new Exception('Query failed!');
+			 $this->queryFail($stmt);
 
 		if($row = $stmt->fetch()) {
 			$this->username = $row['username'];
@@ -129,7 +130,7 @@ class Account {
 		$stmt->bindParam(':email', $email, PDO::PARAM_STR);
 
 		if(!$stmt->execute())
-			 throw new Exception('Query failed!');
+			 $this->queryFail($stmt);
 
 		if($row = $stmt->fetch()) {
 			$this->username = $row['username'];
@@ -148,21 +149,48 @@ class Account {
 		}
 	}
 
+	public function queryFail($stmt) {
+		throw new Exception('Query failed: ' . var_export($this->dbConnection->errorInfo(), TRUE) . ';' . var_export($stmt->errorInfo(), TRUE));
+	}
+
 	public function getUsername() { return $this->username; }
 	public function getEmail() { return $this->email; }
 	public function getPwHash() { return $this->pw_hash; }
 	public function getTmpPwHash() { return $this->tmp_pw_hash; }
 	public function getLastLogin() { return $this->last_login; }
 	public function getLastUpdate() { return $this->last_update; }
+	public function getSalt() { return $this->salt; }
 
 	public function setLastLogin($value) {
-		Validation::isValidDateTime_($value);
+		if($value !== null)
+			Validation::isValidDateTime_($value);
 
 		$this->last_login = $value;
 	}
 
 	public function setLastLoginToNow() {
 		$this->setLastLogin(date('Y-m-d H:i:s'));
+	}
+
+	public function setEmail($email) {
+		$this->email = $email;
+	}
+
+	public function setUsername($username) {
+		$this->username = $username;
+	}
+
+	public function setPassword($password) {
+		$this->setSalt('123');
+		$this->setPwHash(sha1($this->getSalt() . $password));
+	}
+
+	public function setPwHash($pw_hash) {
+		$this->pw_hash = $pw_hash;
+	}
+
+	public function setSalt($salt) {
+		$this->salt = $salt;
 	}
 
 }

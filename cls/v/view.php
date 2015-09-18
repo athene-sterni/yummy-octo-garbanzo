@@ -20,6 +20,10 @@ class View {
 		$this->template = $template;
 	}
 
+	public function setTemplate($template) {
+		$this->template = $template;
+	}
+
 	/* Set the value of a template variable */
 	public function setVar($key, $value){  
 		$this->_[$key] = $value;  
