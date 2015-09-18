@@ -34,6 +34,7 @@ CREATE TABLE tbl_discussions (
 	author      INT NOT NULL,
 	create_date DATETIME NOT NULL,
 	last_update DATETIME NOT NULL,
+	recent_date DATETIME NOT NULL,
 
 	FOREIGN KEY (author) REFERENCES tbl_accounts(id)
 	  ON DELETE CASCADE
@@ -57,12 +58,49 @@ CREATE TABLE tbl_answers (
 	  ON DELETE CASCADE
 ) ENGINE=INNODB;
 
+INSERT INTO tbl_discussions(
+	tag, title, contents, author,
+	create_date, last_update, recent_date)
+VALUES(
+	'yolo', 'title#1', 'discussion#1', 1,
+	NOW(), NOW(), NOW());
+
+INSERT INTO tbl_discussions(
+	tag, title, contents, author,
+	create_date, last_update, recent_date)
+VALUES(
+	'yolo', 'title#2', 'discussion#2', 1,
+	NOW(), NOW(), NOW());
+
+INSERT INTO tbl_answers(
+	contents, author, parent, discussion,
+	create_date, last_update)
+VALUES(
+	'hi there', 1, NULL, 1, NOW(), NOW());
+
+INSERT INTO tbl_answers(
+	contents, author, parent, discussion,
+	create_date, last_update)
+VALUES(
+	'hi there too', 1, 1, 1, NOW(), NOW());
+
+INSERT INTO tbl_answers(
+	contents, author, parent, discussion,
+	create_date, last_update)
+VALUES(
+	'hi there as well', 1, 2, 1, NOW(), NOW());
+
 CREATE VIEW vw_discussions AS
 SELECT
 	tbl_discussions.id as discussion_id, 
 	tbl_accounts.id as account_id, 
-	tbl_accounts.username as author_username 
+	tbl_accounts.username as author_username,
+	tbl_discussions.recent_date as recent_date,
+	tbl_discussions.title as discussion_title,
+	COUNT(tbl_answers.id) as num_answers
 FROM tbl_discussions 
 LEFT JOIN tbl_accounts 
 ON tbl_accounts.id = tbl_discussions.author
-ORDER BY tbl_discussions.create_date;
+LEFT JOIN tbl_answers
+ON tbl_answers.discussion = tbl_discussions.id
+ORDER BY tbl_discussions.recent_date, tbl_discussions.create_date;
