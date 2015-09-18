@@ -17,6 +17,10 @@ class Lang {
 
 <?
 
+function htmlify($foo) {
+	return htmlspecialchars($foo, ENT_COMPAT | ENT_HTML_5 | ENT_SUBSTITUTE | ENT_DISALLOWED);
+}
+
 try { 
 		include('config.php');
 

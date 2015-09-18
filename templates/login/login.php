@@ -7,7 +7,7 @@ if(!defined('YOG_INCLUDE'))
 <h1>Login</h1>
 <? if(isset($_SESSION['username'])) { ?>
 <div class="success box" id="login-notice">
-<p><?=sprintf(Lang::$L_LOGIN_SUCCESS, $_SESSION['username'])?></p>
+<p><?=sprintf(Lang::$L_LOGIN_SUCCESS, htmlify($_SESSION['username']))?></p>
 </div>
 <? } else { ?>
 <div class="error box" id="login-notice">
