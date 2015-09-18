@@ -7,13 +7,13 @@ if(!defined('YOG_INCLUDE'))
 
 class SignUpController {  
   
-    private $request = null;  
-    private $template = '';  
+	private $request = null;  
+	private $template = '';  
 	private $view = null;
   
-    /* constructor */
-    public function __construct($request, $action, $dbConnection){  
-        $this->request = $request;
+	/* constructor */
+	public function __construct($request, $action, $dbConnection){  
+		$this->request = $request;
 		$this->view = new View('');
 		switch($action) {
 			case 'signup':
@@ -28,12 +28,12 @@ class SignUpController {
 				break;
 		}
 		$this->view->setTemplate($this->template);
-    }  
+	}  
   
-    /* for display */
-    public function display(){  
-        return $this->view->loadTemplate();  
-    }  
+	/* for display */
+	public function display(){  
+		return $this->view->loadTemplate();  
+	}  
 
 	public function doSignUp($request, $dbConnection) {
 		$account = new Account($dbConnection);

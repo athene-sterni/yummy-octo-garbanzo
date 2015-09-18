@@ -7,12 +7,12 @@ if(!defined('YOG_INCLUDE'))
 
 class LoginController {  
   
-    private $request = null;  
-    private $template = '';  
+	private $request = null;  
+	private $template = '';  
   
-    /* constructor */
-    public function __construct($request, $action, $dbConnection){  
-        $this->request = $request;
+	/* constructor */
+	public function __construct($request, $action, $dbConnection){  
+		$this->request = $request;
 		switch($action) {
 			case 'login':
 				$this->template = 'login' . DIRECTORY_SEPARATOR . 'login';
@@ -22,13 +22,13 @@ class LoginController {
 				$this->template = 'login' . DIRECTORY_SEPARATOR . 'default';
 				break;
 		}
-    }  
+	}  
   
-    /* for display */
-    public function display(){  
-        $view = new View($this->template);  
-        return $view->loadTemplate();  
-    }  
+	/* for display */
+	public function display(){  
+		$view = new View($this->template);  
+		return $view->loadTemplate();  
+	}  
 }  
 
 ?>
