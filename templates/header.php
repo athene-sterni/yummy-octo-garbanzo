@@ -14,7 +14,7 @@ if(!defined('YOG_INCLUDE'))
 	<body>
 		<div id="wrapper">
 			<div id="nav">
-				<a href="index.html">Home</a> | <a href="blog.html">Blog</a> | <a href="resources.html">Resources</a>
+				<a href="index.html">Home</a> | <a href="blog.html">Blog</a> | <a href="resources.html">Resources</a> <? if(isset($_SESSION['username'])) echo ' | ' . $_SESSION['username'] ?>
 			</div>
 			<div style="clear: both;"></div>
 			<div id="content">

@@ -17,10 +17,8 @@ class SignUpController {
 		$this->view = new View('');
 		switch($action) {
 			case 'signup':
-				$this->template = 'signup' . DIRECTORY_SEPARATOR . 'default';
-				
+				$this->template = 'signup' . DIRECTORY_SEPARATOR . 'default';				
 				$this->doSignUp($request, $dbConnection);
-
 				break;
 			default:
 				$this->template = 'signup' . DIRECTORY_SEPARATOR . 'default';

@@ -1,3 +1,5 @@
+<? session_start(); ?>
+
 <? define('YOG_INCLUDE', '42'); ?>
 
 
@@ -8,16 +10,18 @@ class Lang {
 	public static $L_LOGIN_TEXT = 'Please provide your credentials to log yourself in or create a new account:';
 	public static $L_SIGNUP_TEXT = 'Please provide your information to sign up:';
 	public static $L_EMAIL = 'E-Mail';
+	public static $L_LOGIN_SUCCESS = 'You are now logged in as %s.';
+	public static $L_LOGIN_ERROR = "The credentials you provided were wrong. Please try again!";
 }
 ?>
 
 <?
 
 try { 
-
 		include('config.php');
 
 		include('cls/validation.php');
+		include('cls/login.php');
 
 		include('cls/c/main.php');
 		include('cls/c/login.php');

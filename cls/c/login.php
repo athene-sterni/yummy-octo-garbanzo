@@ -11,9 +11,13 @@ class LoginController {
     private $template = '';  
   
     /* constructor */
-    public function __construct($request, $action){  
+    public function __construct($request, $action, $dbConnection){  
         $this->request = $request;
 		switch($action) {
+			case 'login':
+				$this->template = 'login' . DIRECTORY_SEPARATOR . 'login';
+				LoginHandler::login($request['username'], $request['password'], $dbConnection);
+				break;
 			default:
 				$this->template = 'login' . DIRECTORY_SEPARATOR . 'default';
 				break;
