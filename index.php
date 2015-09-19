@@ -12,6 +12,12 @@ class Lang {
 	public static $L_EMAIL = 'E-Mail';
 	public static $L_LOGIN_SUCCESS = 'You are now logged in as %s.';
 	public static $L_LOGIN_ERROR = "The credentials you provided were wrong. Please try again!";
+	public static $L_DISCUSSIONS = 'Discussions';
+	public static $L_OVERVIEW = 'Overview';
+	public static $L_NUM_ANSWERS = ' answer(s)';
+	public static $L_TITLE = 'Title';
+	public static $L_AUTHOR = 'Author';
+	public static $L_RECENT_DATE = 'Date';
 }
 ?>
 
@@ -30,9 +36,11 @@ try {
 		include('cls/c/main.php');
 		include('cls/c/login.php');
 		include('cls/c/signup.php');
+		include('cls/c/discussions.php');
 		include('cls/v/view.php');
 
 		include('cls/m/account.php');
+		include('cls/m/vdiscussions.php');
 		   
 		$request = array_merge($_GET, $_POST);   
 
@@ -63,6 +71,9 @@ try {
 				break;
 			case 'signup':
 				$controller = new SignUpController($request, $rqAction, $dbConnection);
+				break;
+			case 'discussions':
+				$controller = new DiscussionsController($request, $rqAction, $dbConnection);
 				break;
 			default:
 				$controller = new MainController($request, $rqAction, $dbConnection);

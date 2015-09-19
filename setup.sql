@@ -97,10 +97,10 @@ SELECT
 	tbl_accounts.username as author_username,
 	tbl_discussions.recent_date as recent_date,
 	tbl_discussions.title as discussion_title,
-	COUNT(tbl_answers.id) as num_answers
+	(SELECT COUNT(tbl_answers.id) 
+	 FROM tbl_answers
+	 WHERE tbl_answers.discussion = tbl_discussions.id) as num_answers
 FROM tbl_discussions 
 LEFT JOIN tbl_accounts 
 ON tbl_accounts.id = tbl_discussions.author
-LEFT JOIN tbl_answers
-ON tbl_answers.discussion = tbl_discussions.id
 ORDER BY tbl_discussions.recent_date, tbl_discussions.create_date;

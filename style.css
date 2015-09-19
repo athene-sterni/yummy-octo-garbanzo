@@ -4,6 +4,14 @@
 	border: solid 0.1em black;
 }
 
+.overview-entry { margin-bottom: 2em; }
+.overview-details { padding-left: 1em; }
+
+.overview-entry-author { font-size: 0.75em; }
+.overview-entry-num-answers { font-size: 0.75em; }
+.overview-entry-recent-date { font-size: 0.75em; }
+.overview-entry-title { font-size: 1.15em; }
+
 
 div#wrapper {
 	min-height: 10em;
